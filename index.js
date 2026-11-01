@@ -27,17 +27,15 @@ client.on('ready', async () => {
 
   const updateStatus = () => {
     if (isLiveIndia) {
-      // 1st Status: Clean text-only LIVE-INDIA (1 Hour block) - No assets, no app id
+      // 1st Status: Only name "LIVE-INDIA" (1 Hour block) - No details, no state
       client.user.setPresence({
         status: 'online',
         activities: [{
           name: 'LIVE-INDIA',
-          type: 'PLAYING',
-          details: 'Developing Open-World Game',
-          state: 'Unity Engine'
+          type: 'PLAYING'
         }]
       });
-      console.log('[+] Status switched to: LIVE-INDIA (Clean Text)');
+      console.log('[+] Status switched to: LIVE-INDIA (Name Only)');
     } else {
       // 2nd Status: Exact old Unity Status (5 Hours block)
       client.user.setPresence({
