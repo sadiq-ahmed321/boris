@@ -23,23 +23,23 @@ setInterval(() => {
 client.on('ready', async () => {
   console.log(`[+] Logged in successfully as ${client.user.tag}!`);
 
-  let isLiveIndia = true; // State tracker for the rotation cycle
+  let isLiveIndia = true;
 
   const updateStatus = () => {
     if (isLiveIndia) {
-      // 1st Status: Playing LIVE-India (1 Hour block)
+      // 1st Status: Clean text-only LIVE-INDIA (1 Hour block) - No assets, no app id
       client.user.setPresence({
         status: 'online',
         activities: [{
           name: 'LIVE-INDIA',
           type: 'PLAYING',
           details: 'Developing Open-World Game',
-          state: 'Unity Engine',
+          state: 'Unity Engine'
         }]
       });
-      console.log('[+] Status switched to: LIVE-INDIA');
+      console.log('[+] Status switched to: LIVE-INDIA (Clean Text)');
     } else {
-      // 2nd Status: Unity Exact Status (5 Hours block)
+      // 2nd Status: Exact old Unity Status (5 Hours block)
       client.user.setPresence({
         status: 'online',
         activities: [{
@@ -54,28 +54,23 @@ client.on('ready', async () => {
           }
         }]
       });
-      console.log('[+] Status switched to: Unity (Exact)');
+      console.log('[+] Status switched to: Unity (Exact Old)');
     }
   };
 
-  // Run immediately on start
   updateStatus();
 
-  // Set interval loop: Switch every 1 hour (1 Hour = 3600000 ms)
-  // Note: To make it strict: 1 hr for LIVE-INDIA, then switch. But since the next is 5 hrs, 
-  // we toggle the timer dynamically or use a dual-timeout loop for exact 1h and 5h durations.
-  
   const runCycle = async () => {
     // 1 Hour duration for LIVE-INDIA
     setTimeout(async () => {
       isLiveIndia = false;
       updateStatus();
 
-      // 5 Hours duration for Unity status (5 * 60 * 60 * 1000 ms)
+      // 5 Hours duration for Unity status
       setTimeout(async () => {
         isLiveIndia = true;
         updateStatus();
-        runCycle(); // Repeat the whole cycle infinitely
+        runCycle();
       }, 5 * 60 * 60 * 1000);
 
     }, 1 * 60 * 60 * 1000);
